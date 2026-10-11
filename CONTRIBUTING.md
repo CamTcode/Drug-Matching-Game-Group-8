@@ -50,11 +50,17 @@ Follow a conventional commits format, with the type of commit in front, then a b
 | Docs | Adding documents or changes to one | docs: edited README for the changes from xxxx branch |
 | Style | Changes to the style/format | style: added header with credits |
 
-Creating a type of commit is allowed if these do not fit, however you must continue to follow the example format. 
+If none of the listed commit types fit, a team member may create a new type, as long as it follows the example format. They must communicate their reasoning for the new type and the details of what it covers to the rest of the team before using it.
 
 ## Code Style, Linting & Formatting
 
-This is going to get changed later so that code can be run through an automatic linter. The sprint goal and owner are listed in Definition of done. 
+The technology stack has not been finalized. Our client’s previous teams used Unity (C#), so we are evaluating it as our likely option. We will confirm the stack by end of week 4 and update this section when we do. Until then, this is our plan:
+
+- **Automated check (CI):** a GitHub Actions job will run the formatter and linter on every pull request, and a PR cannot merge until it passes. 
+- **If we use Unity (C#):** the formatter is `dotnet format` and linting is done with Roslyn analyzers. Config lives in `.editorconfig` at the repository root.
+  - Check locally (same command CI runs): `dotnet format --verify-no-changes`
+  - Fix locally: `dotnet format`
+- **If we choose a different stack:** we will adopt the standard formatter and linter for that language and document the config file locations and commands here.
 
 ## Testing
 
@@ -74,7 +80,7 @@ For a branch to be considered finalized, it must complete this checklist.
 
 This checklist must be performed before any commits to main, to assure proper testing and quality. If a branch cannot follow any of these steps it must be listed as to why and recorded.
 
-The Automatic linter, coverage tool, and test suite will be finished by sprint 1, with these owners assigned to complete them.
+The Automatic linter, coverage tool, and test suite will be finished by Sprint 1, with these owners assigned to complete them.
 Linter: Project Manager
 Coverage tool: AI Coordinator
 Test Suite: Quality Owner
@@ -105,27 +111,27 @@ For the person reviewing:
 
 ## CI/CD
 
-To be determined and made, when we have a more concrete foundation of where we want the project to go. Will be written by project manager in sprint 1. 
+To be determined and made, when we have a more concrete foundation of where we want the project to go. Will be written by project manager by Sprint 1. 
 
 ## Security & Secrets
 
 Private user info should not be committed to the repository as well as, passwords, keys, and access tokens. Any concerns should be reported privately to the project partner and discussed amongst the team about how to solve the issue. Dependencies should be up to date, and checked before being used. When updating a dependency, it should be tested for compatibility with the current code before being changed to prevent code from breaking. 
 
-Should be edited later by Project manager to include scanning tools assigned in the definition of done section. 
+Should be edited later by project manager to include scanning tools assigned in the definition of done section. 
 
 ## Documentation Expectations
 
-As stated in the definition of done, necessary changes must be made to the README if a feature is major enough or setup instructions change, as well as adding a summary in CHANGELOG.md. Ff a feature could potentially change the direction of the project it should also be logged in DIRECTIONS.md.
+As stated in the definition of done, necessary changes must be made to the `README.md` if a feature is major enough or setup instructions change, as well as adding a summary in `CHANGELOG.md`. If a feature could potentially change the direction of the project it should also be logged in `DIRECTIONS.md`.
 
 ## Release Process
 
-We will be using a semantic versioning scheme (v1.0.0.0) for any releases, and tagging a commit with that semantic format as a release. CHANGELOG.md will follow this format, and act as a traceable history of our releases. Rollbacks should be done when a major bug in a new release has been found that makes it near unusable, otherwise minor updates should be made to attempt to solve the issue. The team should be notified, restore a previous version, fix the but and add tests, then rerelease the fixed version. 
+We will be using a semantic versioning scheme (v1.0.0.0) for any releases, and tagging a commit with that semantic format as a release. `CHANGELOG.md` will follow this format, and act as a traceable history of our releases. Rollbacks should be done when a major bug in a new release has been found that makes it near unusable, otherwise minor updates should be made to attempt to solve the issue. The team should be notified, restore a previous version, fix the bug and add tests, then release the fixed version. 
 
-Publishing method is to be determined and will be edited in by the project manager in sprint 2. 
+Publishing method is to be determined and will be edited in by the project manager in Sprint 2. 
 
 ## Support & Contact
 
-Use GitHub Issues for bugs, and my discord for general questions. Response time is around 1-2 business days. 
+Use GitHub Issues for bugs and the Discord channel for general questions. Response time is around 1-2 business days. 
 
 Project Maintainer info:  
 Name: Olivia Cleveland  
