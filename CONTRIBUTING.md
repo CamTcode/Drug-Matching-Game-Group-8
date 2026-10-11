@@ -127,8 +127,8 @@ Publishing method is to be determined and will be edited in by the project manag
 
 Use GitHub Issues for bugs, and my discord for general questions. Response time is around 1-2 business days. 
 
-Project Maintainer info:
-Name: Olivia Cleveland
-Email: clevelol@oregonstate.edu
-Discord: https://discord.gg/dVwCYbRMav
-Hours: 9:00am - 10:00pm PST
+Project Maintainer info:  
+Name: Olivia Cleveland  
+Email: clevelol@oregonstate.edu  
+Discord: https://discord.gg/dVwCYbRMav  
+Hours: 9:00am - 10:00pm PST  
