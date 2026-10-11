@@ -29,8 +29,6 @@ The programming language, framework, database, hosting platform, deployment proc
 
 ### Drug Information
 
-- Support a drug's generic name and one or more trade or brand names.
-- Support a drug's mechanism of action and multiple disease uses.
 - Distinguish primary uses from off-label uses when that information is available and verified.
 - Preserve the relationships between drug records, names, mechanisms, and uses when generating matching questions.
 - Do not invent drug information. Flag unknown or conflicting information for verification against sources approved by the team or project partner.
