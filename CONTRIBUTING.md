@@ -80,7 +80,7 @@ For a branch to be considered finalized, it must complete this checklist.
 
 This checklist must be performed before any commits to main, to assure proper testing and quality. If a branch cannot follow any of these steps it must be listed as to why and recorded.
 
-The Automatic linter, coverage tool, and test suite will be finished by Sprint 1, with these owners assigned to complete them.
+The Automatic linter, coverage tool, and test suite will be finished by Sprint 2, with these owners assigned to complete them.
 Linter: Project Manager
 Coverage tool: AI Coordinator
 Test Suite: Quality Owner
@@ -111,7 +111,7 @@ For the person reviewing:
 
 ## CI/CD
 
-To be determined and made, when we have a more concrete foundation of where we want the project to go. Will be written by project manager by Sprint 1. 
+To be determined and made, when we have a more concrete foundation of where we want the project to go. Will be written by project manager by Sprint 2. 
 
 ## Security & Secrets
 
