@@ -1,10 +1,4 @@
-<!-- docs/rfcs/YYYY-MM-DD-short-title.md (or docs/adr/, whichever your repo uses) -->
-
 # RFC: Ground work and Setting Environment
-
-<!-- Decision record header. Leave Status as "Draft" while the RFC is under review.
-     When your team decides, fill in the outcome and the decision date. The
-     document stays where it is; this header is what makes it a record. -->
 
 | Field | Value |
 | --- | --- |
