@@ -1,4 +1,10 @@
+<!-- docs/rfcs/YYYY-MM-DD-short-title.md (or docs/adr/, whichever your repo uses) -->
+
 # RFC: Ground work and Setting Environment
+
+<!-- Decision record header. Leave Status as "Draft" while the RFC is under review.
+     When your team decides, fill in the outcome and the decision date. The
+     document stays where it is; this header is what makes it a record. -->
 
 | Field | Value |
 | --- | --- |
@@ -20,8 +26,6 @@ We need to make this decision because it is what we will be using to build off o
 If we do nothing then we might have to choose an inconvenient language type that isn't ideal but fits the decisions we made before choosing a language.
 
 ## Options
-
-At least three credible options, **including "do nothing"**. Give each option a short name and an account of its real costs. An option you would be embarrassed to recommend is not credible; a strawman weakens the whole document.
 
 ### Option A: TypeScript and React
 
@@ -49,37 +53,35 @@ Costs: Can't begin any actual work in main project work and makes it harder to p
 
 ## Analysis
 
-The technical tradeoffs that matter for this decision: performance, complexity, maintainability, security, cost. Argue from evidence (benchmarks, prototypes, documentation, prior art) and cite what you relied on so a reviewer can check it. Acknowledge what you are uncertain about.
-
 Can it work well on both phones and computers?
 Building the admin portal
 How will drug information be stored?
 Difficulty developing? 
 Cost Monetary?
 
-I know from talking to my group mates we overall have more experience with python
+I know from talking to my group mates we overall have experience with python but also some specialize in TypeScript. So I don't think this should sway our decision greatly.
 
 React supports TypeScript and is a good option for a complex app and for teams. Combining React with TypeScript is optimal for highly interactive or data-complex applications due to static typing and data rules. https://www.dotsquares.com/press-and-events/tech/react-with-typescript-or-javascript
 
 Instead of forcing the browser to repaint the entire webpage every time a user makes a move, React computes the structural changes in memory first and updates that specific change.
 
- Game logic can run in browser JavaScript for a prototype while Django excels at text-heavy or backend computing, using it for real-time frontend feedback requires heavy custom JavaScript integration, adding unnecessary network latency to simple mobile taps. https://horizon.dev/blog/react-django-enterprise-performance/
+ Django excels at text-heavy or backend computing, though using it for real time frontend feedback requires some JavaScript integration, possibly adding network latency to mobile taps. https://horizon.dev/blog/react-django-enterprise-performance/
 
- case studies on Horizon Dev, teams transitioning to React for 
- data management frequently experience a sharp increase in code 
- complexity, as developers are forced to spend time debating, configuring, or building custom admin components from scratch
+ anecdotes from Horizon Dev says teams transitioning to React for 
+ data management frequently experience an increase in code 
+ complexity, as developers are forced to spend time configuring, or building custom admin components from scratch
  https://horizon.dev/blog/react-django-enterprise-performance/
 
  Some things that I am not sure of is what their definition of admin components and what ours will require and look like. 
 
- React is a client-side frontend library, it cannot securely connect directly to database servers without exposing critical credentials to the user's browser. It must query an external database via API endpoints. This is can be resolved by using serverless systems like Supabase or Firebase, which provide ready relational table models which is easy with TypeScript.
+ React is a client-side frontend library, it cannot securely connect directly to database servers without exposing critical credentials to the user's browser. It must query an external database via API endpoints. This is can be resolved by using serverless systems like Supabase, which provide ready relational table models which is easy with TypeScript.
  https://supabase.com/docs/guides/database/postgres/row-level-security
  
  Django includes a built-in, highly secure Object-Relational Mapper (ORM) and it provides default protection against SQL injection attacks. However, the learning curve is structurally steeper because it forces developers to follow strict Model-Template-View architectural patterns. https://krify.co/is-django-still-relevant-in-2026-trends-future-scope/
 
- A Python runtime engine must continuously execute on a remote virtual instance (like Heroku, AWS EC2, or Render) to listen for network routes and charge monthly. So free hosting for Python backends looks to be rare and restrictive compared to alternatives.
+ A Python runtime engine continuously executes on a remote virtual instance to listen for network routes and generally charge monthly. So free hosting for Python backends looks to be rare and restrictive compared to alternatives.
 
- While TypeScript + React Evidence: Frontend hosting architectures (such as Vercel, Netlify, or Cloudfire Pages) provide some sort of free tiers for static web content
+ While with TypeScript + React some frontend hosting architectures provide some sort of free tiers for static web content. This can be beneficial for mocks.
  https://horizon.dev/blog/react-django-enterprise-performance/
 
 
@@ -94,7 +96,7 @@ https://effective-programmer.com/typescript-vs-python-battle-for-the-interpreted
  https://www.dotsquares.com/press-and-events/tech/react-with-typescript-or-javascript
 ## Recommendation and Verification Plan
 
-I think Option A "TypeScript and React" would be the best choice if we can find a suitable database backend like Supabase to help with the responsive web interface. TypeScript can help catch coding mistakes, and Supabase can help with csv importing. I think it has a better learning curve (though this has to be explored), and would would make it easier to do mocks and work cross platform. And the pricing is a plus.
+I think Option A "TypeScript and React" would be the best choice if we can find a suitable database backend like Supabase to help with the responsive web interface. TypeScript can help catch coding mistakes, and Supabase can help with csv importing. I think it has a better learning curve (though this has to be explored), and would make it easier to do mocks and work cross platform. And the pricing is a plus.
 Although we would have to come up with our own way to maintain and update the information so our project partner can update it.
 
 We will detect potential failures if the interface is too difficult to use on either device or importing has many error and the project partner cannot manage drug information without technical help, or the hosting costs exceed our budget.
@@ -124,6 +126,7 @@ Cost Monetary?
  
  it gave back alot of information in the analysis and I entered in most of it in own words or paraphrased 
 
+Also entered in claude and asked to "point out any obvious mistakes and quick fixes, no nit picking" for a quick check before submitting to catch grammar, spelling, etc.
 
 - **What checks made that reasonable**: Every big decision gets review by the group and also any changes pushed to main have to be reviewed.
 - **Where you stopped and validated the result yourself, and why those points.** I checked the results from researching the options and checked the sources. I also considered our project scope and requirements. I have not yet built a prototype to verify usability or performance and will need to fully test and verify mobile compatibility with a mock and exploring an admin like feature. While also analyzing the learning curve for myself as this can be opinionated.
