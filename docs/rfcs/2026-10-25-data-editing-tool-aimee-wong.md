@@ -4,7 +4,7 @@
 
 | Field | Value |
 | --- | --- |
-| Author | [Aimee Wong] |
+| Author | Aimee Wong |
 | Date | 2026-10-25 |
 | Status | Proposed |
 | Decision Date | 11/01 |
