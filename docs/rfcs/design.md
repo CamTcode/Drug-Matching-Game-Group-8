@@ -125,14 +125,16 @@ Persisted: drug entries, maintained by admins. Derived at runtime: each game rou
 Privacy: the drug content is not student data. And don't have any sort of data collecting. All information and data is public knowledge provided by the project partner. If accounts or progress tracking are added, then we will revisit this section for privacy implications.
 
 ## 5. Deployment
-
-The team's walking skeleton has yet [TBD] have explored using **Cloud Flare** and **GitHub Pages**, data will be hosted on **Supabase**. Yet [TBD] who is responsible for managing the hosting Supabase accounts and the deployment configuration. The production target of a working model was expressed to by **Professor Philmus** on **Spring of 2027** for student testing. Changes will be checked in **a separate deployment** before reaching students. If a deployment causes problems, the team will **Redeploy the previous build**.
+- Front end hosting [TBD]: Cloud Flare or GitHub Pages.
+  Data: a hosted Supabase.
+- Production: Team Lead will have ownership of both accounts; Project partner agreed to target a working model in Spring 2027.
+- Check before launch: Supabase plan limits, who owns the Supabase project after the team's term ends (ADR-002, to be written). Deployment for mobile compatibility. CSV import works with partner access.
+- Rollback: redeploy the previous front-end build. Try it once and record that it
+  works.
 
 ## 6. Deferred Decisions
 
-Postponed on purpose:
-
-- Game modes or features beyond the initial matching game.
+- Game modes or features beyond the initial matching game. After first working version.
 - Student accounts, progress tracking, or score persistence, until the team determines the scope of the project.
 - Performance or database optimization, until real content volume and usages are known.
 - Installable (PWA) or offline use, until we know the process of deployment on mobile.
