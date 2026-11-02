@@ -70,28 +70,50 @@ Each major file should have its own test file, with a coverage threshold of 80%,
 
 ## Definition of Done
 
-For a branch to be considered finalized, it must complete this checklist.
-- Pass the projects automatic linter. A CI linting job will automatically check the code when a pull request is opened, which will be made by the quality owner. 
-- Has a test file with 80% coverage, which will be verified by the test suite and coverage tool. 
-- Is peer reviewed by a Quality owner with a pull request and follows the pull request guidelines. 
-- Edits the README file to include a small explanation of how to use the files in your branch. Checked by the reviewer. 
-- Project manager reviews that it follows the direction of the project and what the partner wants.
-- Gets reviewed by AI coordinators so that it follows AI guidelines.
+A change is done when every check below passes. This is a shared commitment: the author, the reviewer, and the role owners each have a part. The checks must pass before anything merges to `main`. Branch protection on `main` (see table) is what makes that rule enforceable instead of a matter of memory.
 
-This checklist must be performed before any commits to main, to assure proper testing and quality. If a branch cannot follow any of these steps it must be listed as to why and recorded.
+| # | Check | Enforced by | Status | Sprint | Owner |
+|---|-------|-------------|--------|--------|-------|
+| 1 | Lint and format pass | `.github/workflows/lint.yml`, set as a required status check. Config in `.editorconfig` (Unity/C#: `dotnet format --verify-no-changes`) | Not built yet | 2 | Project Manager |
+| 2 | Tests pass | `.github/workflows/test.yml`, set as a required status check. Framework depends on the final stack (Unity: Unity Test Framework/NUnit; otherwise the standard framework for that language) | Not built yet | 2 | Quality Owner |
+| 3 | 80% coverage on changed files | Coverage step in `test.yml` that fails below 80% (Unity: Code Coverage package) | Not built yet | 2 | AI Coordinator |
+| 4 | No secrets committed | GitHub secret scanning with push protection | Not built yet | 2 | Project Manager |
+| 5 | Dependencies checked | `.github/dependabot.yml`, with updates tested before merge (see Security & Secrets) | Not built yet | 2 | Project Manager |
+| 6 | Peer review approved | Branch protection on `main`: 1 approving review required, direct pushes blocked | Not built yet | 1 | Project Manager |
+| 7 | README, CHANGELOG, and (if direction changes) DIRECTIONS updated | PR template checklist (`.github/pull_request_template.md`), verified by the reviewer | Not built yet | 1 | Quality Owner |
+| 8 | Follows project direction and partner needs | PR template checkbox, confirmed by the Project Manager's review | Not built yet | 1 | Project Manager |
+| 9 | Follows AI guidelines | PR template checkbox, confirmed by the AI Coordinator's review | Not built yet | 1 | AI Coordinator |
+| 10 | Commit messages follow our format | Reviewer checks against the Commit Messages section (a commitlint CI job may be added later) | Manual | n/a | Quality Owner |
 
-The Automatic linter, coverage tool, and test suite will be finished by Sprint 2, with these owners assigned to complete them.
-Linter: Project Manager
-Coverage tool: AI Coordinator
-Test Suite: Quality Owner
+**Until the CI gates exist (before Sprint 2):** the reviewer manually runs the formatter, tests, and coverage check locally and records the results in the PR description. Items 6 to 9 are manual checks until the PR template and branch protection are in place.
+
+**Who opens and reviews PRs:** the author opens the PR and fills in the template. The Quality Owner reviews it. If the Quality Owner is the author, a different team member reviews it, so no one approves their own work.
+
+**If a check cannot be met:** the author lists which check and why in the PR description, and the reviewer records the decision there. It is not skipped silently.
 
 ## Contribution Norm
 
-A contribution can be various things, with examples listed below.
-- A new feature: Must follow the definition of done checklist
-- A bug fix or extra testing: Logged in either Issues or as a pull request
-- Document, style, or formatting changes: Discussed in your communication channel, and making sure all other files follow this change
-- Code reviews: Logged in Github
+**The norm:** every team member owns at least one piece of accepted work in every sprint. This is what feeds the contribution lines in Sprint Notes, so we write it as something we will actually follow.
+
+**Where our work lives:** this GitHub repository. Pull requests, Issues, and PR reviews are the record. Work that happens elsewhere (Discord discussions, calls with our partner) counts only once it is logged in an Issue or PR.
+
+**What "accepted" means:**
+
+| Kind of work | Accepted when |
+|--------------|---------------|
+| New feature | PR merged to `main` after meeting the Definition of Done |
+| Bug fix | Issue closed and linked to a merged PR |
+| Tests | PR merged that adds or fixes tests, with coverage requirement met |
+| Docs, style, or formatting | PR merged after review by someone other than the author (a Discord discussion alone does not count) |
+| Code review | Review logged on GitHub on a PR you did not author, with substantive comments or an approval |
+
+**Making the norm workable:**
+
+- **Sizing:** one feature or change per PR, small enough to review in about 30 minutes ✱. If a feature is bigger, split it across several PRs or Issues so each person's contribution is visible.
+- **Review turnaround:** reviewers respond within 2 business days. If a PR sits longer, the author pings the reviewer in Discord, then asks the Project Manager to reassign it.
+- **Pairing:** pair work is allowed. The pair opens one PR with both names in the description and uses `Co-authored-by:` in the commit, so both people are credited.
+- **Mid-sprint check:** at the midpoint of each sprint, the team checks that everyone has an open Issue or PR assigned. If someone is blocked, we adjust scope or pair them with a teammate instead of waiting until the end.
+- **Missing the norm:** if someone can't land accepted work in a sprint (illness, blocker), they tell the team before the sprint ends, and the reason is noted in Sprint Notes.
 
 ## Pull Requests & Reviews
 
