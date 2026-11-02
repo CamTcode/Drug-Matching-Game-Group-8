@@ -93,8 +93,6 @@ The project uses TypeScript for application code. Shared interfaces and types sh
 
 ### Linting
 
-- Configuration: [actual configuration file]
-
 Linting for TypeScript and React; runs in CI automatically on a pull request and flag issues and auto lints if plausible with: **npm run lint:fix**. Only .md files are checked by linter. Stored in root as `package.json` and `eslint.config.mjs`. Can run with: **npm run lint**.
 
 ## 4. Data Model
