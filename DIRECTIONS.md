@@ -1,2 +1,13 @@
-This file will act as where any major decisions about the direction of the project will go. What it will be, how it will work, ETC. Acting as a log of major decisions.  
-It will remain blank until the group has more discussions in week 2. 
+We will be using Typescript and React, as well as Supabase as suggested by Camden.
+Next Goals:
+- Linter for both Typescript and React (can be two separate tasks)
+- Code coverage tool
+- Test Suite tool
+These can be outsourced just make sure to credit and check the source
+- Creating database
+- Linking database with repo
+
+Extra:
+- Setting up Supabase so it can read CSV
+- Rewrite publishing process.
+- Update contributing.md
