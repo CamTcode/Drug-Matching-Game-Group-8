@@ -1,1 +1,1 @@
-const unusedVariable = 123;
+export const eslintCheck = 123;
