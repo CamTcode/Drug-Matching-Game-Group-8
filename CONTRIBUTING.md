@@ -135,6 +135,13 @@ For the person reviewing:
 
 To be determined and made, when we have a more concrete foundation of where we want the project to go. Will be written by project manager by Sprint 2. 
 
+## Code Style, Linting & Formatting
+
+We use React with TypeScript. A GitHub Actions job runs ESLint on every pull request, and a PR cannot merge until it passes. Config lives in `eslint.config.js` at the repository root.
+
+- Check locally (same command CI runs): `npm run lint`
+- Fix locally: `npm run lint -- --fix`
+  
 ## Security & Secrets
 
 Private user info should not be committed to the repository as well as, passwords, keys, and access tokens. Any concerns should be reported privately to the project partner and discussed amongst the team about how to solve the issue. Dependencies should be up to date, and checked before being used. When updating a dependency, it should be tested for compatibility with the current code before being changed to prevent code from breaking. 
