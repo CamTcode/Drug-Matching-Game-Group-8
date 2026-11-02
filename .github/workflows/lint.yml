@@ -8,6 +8,18 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'eslint.config.mjs'
+      - 'tsconfig*.json'
+      - '.github/workflows/lint.yml'
+
+  push:
+    branches: [main]
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'tsconfig*.json'
       - '.github/workflows/lint.yml'
 
 jobs:
