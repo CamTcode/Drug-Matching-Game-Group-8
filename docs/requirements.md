@@ -37,6 +37,7 @@ PharmD students preparing for their final licensing exam need to practice the re
 - **C-2**: Drug content comes from the project partner.
 - **C-3**: The application must be successfully deployed.
 - **C-4**: The project starts from nothing. There is no existing application, development workflow, or codebase to inherit.
+- **C-5**: The application will use Supabase for a database to store drug information, chosen for its flexibility with CSV importm, and Vercel to host and deploy the site. This is a decided technology choice.
 
 ## Success metrics
 
