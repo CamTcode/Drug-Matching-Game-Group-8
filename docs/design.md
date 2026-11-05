@@ -14,6 +14,8 @@ Technologies decided so far:
 - **React** for the front end
 - **TypeScript** for application code
 - **Supabase** for backend data
+- **Vercel** for primary frontend hosting
+- **Cloudflare** as a backup hosting option
 
 Functional and non-functional requirements in `docs/requirements.md`. 
 
@@ -55,6 +57,8 @@ flowchart LR
 Notes on the diagram:
 
 - Supabase provides the database and a generated API, so no separate custom backend server needed. Game logic (building a round, checking matches) runs in the React app. If some logic must run server-side (validating a large CSV import), it would be added as a Supabase function or database rule.
+-  The team has created an initial Supabase project and added group members with Admin/Owner access. Database tables, application integration, and access policies are still in development.
+- Vercel has been selected as the primary frontend hosting platform, with Cloudflare as a backup option.
 - Admin portal is yet to be decided on the function [TBD].
 - Phone support is through the browser, so the UI must be responsive. Possibly need to be installable as a PWA is [TBD].
 
@@ -89,11 +93,24 @@ Open points: header row with column names, probably use the standard encoding (U
 
 ### TypeScript
 
-The project uses TypeScript for application code. Shared interfaces and types should be used where components exchange structured data, in particular a `DrugEntry` type that matches the database row and the CSV columns. If the team generates types from the Supabase schema, record the command here once it exists.
+The project uses TypeScript for application code. Shared interfaces and types should be used where components exchange structured data, in particular a `DrugEntry` type that matches the database row and the CSV columns. If the team generates types from the Supabase database, record the command here once it exists.
+
 
 ### Linting
 
 Linting for TypeScript and React; runs in CI automatically on a pull request and flag issues and auto lints if plausible with: **npm run lint:fix**. Only .md files are checked by linter. Stored in root as `package.json` and `eslint.config.mjs`. Can run with: **npm run lint**.
+
+The team tested the configurations using files with known errors. The linter correctly identified files containing errors and passed after those errors were corrected.
+
+The configuration is stored in the root directory in `package.json` and `eslint.config.mjs`.
+
+Commands:
+- **npm run lint:** Checks for linting problems.
+- **npm run lint:fix:** Attempts to automatically fix supported linting problems.
+
+### Testing
+
+Vitest coverage tooling is being incorporated into the project to support automated testing and code coverage. And has been implemented with limited capacity.
 
 ## 4. Data Model
 
@@ -123,7 +140,7 @@ Persisted: drug entries, maintained by admins. Derived at runtime: each game rou
 Privacy: the drug content is not student data. And don't have any sort of data collecting. All information and data is public knowledge provided by the project partner. If accounts or progress tracking are added, then we will revisit this section for privacy implications.
 
 ## 5. Deployment
-- Front end hosting [TBD]: Cloud Flare or GitHub Pages.
+- Front end hosting: Vercel.
   Data: a hosted Supabase.
 - Production: Team Lead will have ownership of both accounts; Project partner agreed to target a working model in Spring 2027.
 - Check before launch: Supabase plan limits, who owns the Supabase project after the team's term ends (ADR-002, to be written). Deployment for mobile compatibility. CSV import works with partner access.
