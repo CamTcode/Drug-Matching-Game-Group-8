@@ -17,6 +17,11 @@ export default defineConfig([
       eslint.configs.recommended,
     ],
   },
+    // Browser globals for the game's plain JavaScript files
+  {
+    files: ['src/**/*.js'],
+    languageOptions: { globals: globals.browser },
+  },
   //Typescipt eslint only handles typescript files
   {
     files: ['**/*.{ts,tsx}'],
