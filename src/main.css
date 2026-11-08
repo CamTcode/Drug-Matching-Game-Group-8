@@ -1,0 +1,84 @@
+/* ---------- Page ---------- */
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to bottom right, #D73F09, #d1714e);
+}
+
+/* ---------- Main container ---------- */
+#main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3vh;
+    border-radius: 10px;
+    font-size: larger;
+}
+
+#main h1 {
+    margin: 2vh 2vh 1vh;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: xx-large;
+    font-weight: normal;
+}
+
+#main p {
+    margin: 1vh;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+/* ---------- Category buttons ---------- */
+#buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#buttons button {
+    padding: 1.5vh;
+    margin: .5vh;
+    border: 2px solid black;
+    border-radius: 2vh;
+    background-color: #e0e0e0;
+    color: black;
+    font-size: large;
+}
+
+#buttons button:hover {
+    background-color: #d3d3d3;
+}
+
+#buttons button.selected {
+    background-color: #303030;
+    color: rgb(255, 255, 255);
+}
+
+#buttons button.selected:hover {
+    background-color: #444444;
+}
+
+/* ---------- Play button ---------- */
+#start_btn {
+    padding: 1.5vh 3vh;
+    margin: .5vh;
+    border: 2px solid black;
+    border-radius: 2vh;
+    background-color: #2d9b4c;
+    color: black;
+    font-family: sans-serif;
+    font-size: large;
+}
+
+#start_btn:hover {
+    background-color: #33b658;
+}
+
+#start_btn:disabled {
+    background-color: #61a775;
+    border-color: rgb(73, 73, 73);
+    color: rgb(73, 73, 73);
+}
