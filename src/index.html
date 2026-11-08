@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>drug matching game</title>
+        <link rel="stylesheet" href="main.css">
+        <script type="module">
+            import { init } from "./main.js";
+            init();
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <img src="images/logo_v1.png">
+            <h1>Pharmacy Matching Game</h1>
+            <p>Pick at least 2 catagories</p>
+            <div id="buttons">
+                <button id="Generic_Name">Generic Name</button>
+                <button id="Trade_Name">Trade Name</button>
+                <button id="Disease_Treated">Disease treated</button>
+                <button id="Pathway_Targeted">Pathway targeted</button>
+            </div>
+            <button id="start_btn" disabled>Play</button>
+        </div>
+    </body>
+</html>
