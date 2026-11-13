@@ -17,11 +17,11 @@ Technologies decided so far:
 - **Vercel** for primary frontend hosting
 - **Cloudflare** as a backup hosting option
 
-Functional and non-functional requirements are in [docs/requirements.md](docs/requirements.md).
+Functional and non-functional requirements are in [docs/requirements.md](requirements.md)].
 
 ### Game play
 
-Each round shows 2–4 columns. Each column holds one field of the drug entries in that round (generic name, trade name, mechanism of action, disease use). The player matches the items across columns that belong to the same drug. The number of columns (2, 3, or 4) sets how many fields are matched at once. Rounds are built at runtime by sampling drug entries. The "simpler" and "more complex" modes: [TBD, define here or in [docs/requirements.md](docs/requirements.md)].
+Each round shows 2–4 columns. Each column holds one field of the drug entries in that round (generic name, trade name, mechanism of action, disease use). The player matches the items across columns that belong to the same drug. The number of columns (2, 3, or 4) sets how many fields are matched at once. Rounds are built at runtime by sampling drug entries. The "simpler" and "more complex" modes: [TBD, define here or in [docs/requirements.md](requirements.md)].
 
 
 ## 2. Architecture
