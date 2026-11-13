@@ -1,0 +1,1 @@
+export const eslintCheck = 123;
