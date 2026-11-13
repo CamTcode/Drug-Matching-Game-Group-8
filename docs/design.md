@@ -2,12 +2,12 @@
 
 ## 1. Overview
 
-The Customizable Drug-Matching Study Game is a game-based study app for PharmD students preparing for their final licensing exam: Decided so far: a React front end, and TypeScript, with a Supabase for backend data.
+The Customizable Drug-Matching Study Game is a game-based study app for PharmD students preparing for their final licensing exam. It is built with a React front end, TypeScript, and Supabase for backend data.
 
 Intended users:
 
 - **Pharmacy students** play the game, on both computers and phones.
-- **Administrators** Project partner add and edit drug content, including by bulk CSV import.
+- **Administrators** or our project partner, who adds and edits drug content, including by bulk CSV import.
 
 Technologies decided so far:
 
@@ -17,7 +17,12 @@ Technologies decided so far:
 - **Vercel** for primary frontend hosting
 - **Cloudflare** as a backup hosting option
 
-Functional and non-functional requirements in `docs/requirements.md`. 
+Functional and non-functional requirements are in [docs/requirements.md](docs/requirements.md).
+
+### Game play
+
+Each round shows 2–4 columns. Each column holds one field of the drug entries in that round (generic name, trade name, mechanism of action, disease use). The player matches the items across columns that belong to the same drug. The number of columns (2, 3, or 4) sets how many fields are matched at once. Rounds are built at runtime by sampling drug entries. The "simpler" and "more complex" modes: [TBD, define here or in [docs/requirements.md](docs/requirements.md)].
+
 
 ## 2. Architecture
 
@@ -129,8 +134,8 @@ Each trade name and each use belongs to exactly one drug. A drug can have many o
 |---|---|---|
 | React + TypeScript web app: game | Interface students use to play matching games; supports 2–4 column matching and simpler/more complex modes; usable on desktop and phone screens | [planned] |
 | React + TypeScript web app: admin portal | Lets non-technical users add, edit, and remove drug entries and import them from CSV; connected to Supabase| [planned] |
-| Supabase (API) | Receives reads and writes from the web app and enforces access rules, allows for CSV | [planned] |
-| Postgres database (inside Supabase) | Stores the drug entries the game uses | [planned] |
+| Supabase (API) | Receives reads and writes from the web app and enforces access rules, allows for CSV | [in progress]: project created and team added; application integration and access policies not yet done |
+| Postgres database (inside Supabase) | Stores the drug entries the game uses | [in progress]: hosted with the Supabase project; tables not yet created |
 
 - If Supabase fails then there would be no content to fill out the drug data and would be left blank giving no options to choose from for matching
 ## 3. Interfaces and Contracts
@@ -138,6 +143,10 @@ Each trade name and each use belongs to exactly one drug. A drug can have many o
 ### Web app ↔ Supabase
 
 The web app talks to Supabase through the Supabase JavaScript/TypeScript client library over HTTPS. The game reads drug entries; the admin portal is able to read and writes them. 
+
+### Access control [proposed, not yet implemented]
+
+Students are anonymous: they do not log in, and can only read drug entries. The administrator (the project partner) logs in through Supabase Auth. Supabase access policies (row-level security) allow reads for everyone and allow writes, including CSV import, only for the authenticated administrator account.
 
 ### CSV import format [TBD]
 
@@ -155,23 +164,6 @@ Open points: header row with column names, probably use the standard encoding (U
 ### TypeScript
 
 The project uses TypeScript for application code. Shared interfaces and types should be used where components exchange structured data, in particular a `DrugEntry` type that matches the database row and the CSV columns. If the team generates types from the Supabase database, record the command here once it exists.
-
-
-### Linting
-
-Linting for TypeScript and React; runs in CI automatically on a pull request and flag issues and auto lints if plausible with: **npm run lint:fix**. Only .md files are checked by linter. Stored in root as `package.json` and `eslint.config.mjs`. Can run with: **npm run lint**.
-
-The team tested the configurations using files with known errors. The linter correctly identified files containing errors and passed after those errors were corrected.
-
-The configuration is stored in the root directory in `package.json` and `eslint.config.mjs`.
-
-Commands:
-- **npm run lint:** Checks for linting problems.
-- **npm run lint:fix:** Attempts to automatically fix supported linting problems.
-
-### Testing
-
-Vitest coverage tooling is being incorporated into the project to support automated testing and code coverage. And has been implemented with limited capacity.
 
 ## 4. Data Model
 
@@ -221,3 +213,18 @@ Privacy: the drug content is not student data. And don't have any sort of data c
 - **CSV rules:** Formatting for the CSV: header format, multi-value cells, and duplicate handling.
 - **Importing:** How will we handel the ability to import drug info for the partner?
 - **Hosting platform:** What will be our front-end hosting platform and what is the cost and compatability
+
+## 8. Development Workflow
+
+### Linting [implemented]
+
+Linting for TypeScript and React runs in CI automatically on a pull request and flags issues. The configuration is stored in the root directory in `package.json` and `eslint.config.mjs`. The team tested the configuration using files with known errors: the linter correctly identified files containing errors and passed after those errors were corrected.
+
+Commands:
+
+- `npm run lint`: Checks for linting problems.
+- `npm run lint:fix`: Attempts to automatically fix supported linting problems.
+
+### Testing [partially implemented]
+
+Vitest coverage tooling is being incorporated into the project to support automated testing and code coverage. It has been implemented with limited capacity.
