@@ -48,7 +48,7 @@ flowchart LR
     admin["Administrator"]
  
     subgraph system["Drug-Matching Study Game"]
-        subgraph app["React + TypeScript Web App (one app or two: TBD)"]
+        subgraph app["React + TypeScript Web App"]
             game["Game UI<br/>matching rounds, 2-4 columns"]
             portal["Admin portal<br/>entry editing, CSV import"]
         end
@@ -68,7 +68,7 @@ Notes on the diagram:
 - Supabase provides the database and a generated API, so no separate custom backend server needed. Game logic (building a round, checking matches) runs in the React app. If some logic must run server-side (validating a large CSV import), it would be added as a Supabase function or database rule.
 -  The team has created an initial Supabase project and added group members with Admin/Owner access. Database tables, application integration, and access policies are still in development.
 - Vercel has been selected as the primary frontend hosting platform, with Cloudflare as a backup option.
-- Admin portal is yet to be decided on the function [TBD].
+- The admin portal will be implemented as a protected section of the existing React and TypeScript web application. It will allow the project partner to upload and manage drug information through CSV imports and manual editing.
 - Phone support is through the browser, so the UI must be responsive. Possibly need to be installable as a PWA is [TBD].
 
 ```mermaid
@@ -100,34 +100,6 @@ flowchart TD
  
 Decisions this diagram depends on: where validation runs, how duplicates are handled, and the multi-value delimiter.
 
-**Draft: related tables (Subject to change)**
- 
-```mermaid
-erDiagram
-    DRUG ||--|{ TRADE_NAME : "has"
-    DRUG ||--|{ DISEASE_USE : "is used for"
-    DRUG {
-        uuid id PK
-        text generic_name UK
-        text mechanism_of_action
-    }
-    TRADE_NAME {
-        uuid id PK
-        uuid drug_id FK
-        text name
-    }
-    DISEASE_USE {
-        uuid id PK
-        uuid drug_id FK
-        text description
-    }
-```
-DRUG holds one row per drug: its generic name and its mechanism of action.
-TRADE_NAME holds one row per brand name. Each row has a drug_id saying which drug it belongs to.
-DISEASE_USE holds one row per use. Each row also has a drug_id.
-
-Each trade name and each use belongs to exactly one drug. A drug can have many of each, but a given row can’t be shared between drugs.
-
 ### Architecture components
 
 | Component | Responsibility | Status |
@@ -154,10 +126,12 @@ Proposed starting point for the team:
 
 | Column | Required | Notes |
 |---|---|---|
-| generic_name | yes | unique key candidate |
-| trade_name | yes | a drug may have more than one; representation |
-| mechanism_of_action | yes | free text |
-| disease_use | yes | free text; a drug may have more than one use |
+| generic_name | yes | unique primary key candidate; The more medical name |
+| trade_name | yes | The "brand" name or more common name |
+| disease_use | yes | What the drug is used to commonly treat |
+| mechanism_of_action | yes | How or what the drug targets for treament |
+
+On our partners end, it will just be a normal CSV with multiple columns for each term. On our end, we will have to break down the columns into seperate CSV, that way each one can be imported into their repsective table in the database. 
 
 Open points: header row with column names, probably use the standard encoding (UTF-8), how multiple trade names or will be handled in one cell, and what happens with duplicate names. The admin portal shows a result of import with per-row results (accepted, or rejected with a reason).
 
@@ -167,28 +141,36 @@ The project uses TypeScript for application code. Shared interfaces and types sh
 
 ## 4. Data Model
 
-The core entity is a **drug entry**. Fields the project has already described:
-
-- Generic name
-- Trade name(s)
-- Mechanism of action
-- Disease use(s)
-
 ```mermaid
 erDiagram
-    DRUG_ENTRY {
-        string generic_name
-        string trade_names
-        string mechanism_of_action
-        string disease_uses
+    DRUG ||--|{ TRADE_NAME : "has"
+    DRUG ||--|{ DISEASE_USE : "is used for"
+    DRUG ||--|{ MECHANISM : "targets"
+
+    DRUG {
+        text generic_name PK
+    }
+
+    TRADE_NAME {
+        text trade_name PK
+        text generic_name PK, FK
+    }
+
+    DISEASE_USE {
+        text disease_use PK
+        text generic_name PK, FK
+    }
+
+     MECHANISM {
+        text mechanism_of_action PK
+        text generic_name PK, FK
     }
 ```
+The DRUG table stores each drug's generic name as its primary key, which uniquely identifies each drug. The generic_name field is also used as a foreign key in the TRADE_NAME, DISEASE_USE, and MECHANISM tables to connect their entries to the corresponding drug.
 
-This is a working sketch, not a finalized schema. Supabase uses Postgres, so the entity will become one or more tables, but table and column names, types, and constraints are [TBD].
+The related tables use composite primary keys consisting of generic_name and their respective information fields. This allows the same trade name, disease use, or mechanism of action to appear under different drugs while preventing duplicate entries for the same drug.
 
-Persisted: drug entries, maintained by admins. Derived at runtime: each game round, built by sampling entries and arranging them into 2–4 matching columns.
-
-[TBD] : whether trade names and uses are separate tables or fields on one table, whether drugs are grouped into categories or decks, and whether game sessions, scores, or student accounts are stored at all. The medical content comes from the project side, provided by the partner so the team has to build the structure of the data, not its medical correctness.
+[TBD] : whether drugs are grouped into categories or decks, and whether game sessions, scores, or student accounts are stored at all. The medical content comes from the project side, provided by the partner so the team has to build the structure of the data, not its medical correctness.
 
 Privacy: the drug content is not student data. And don't have any sort of data collecting. All information and data is public knowledge provided by the project partner. If accounts or progress tracking are added, then we will revisit this section for privacy implications.
 
@@ -209,10 +191,10 @@ Privacy: the drug content is not student data. And don't have any sort of data c
 
 ## 7. Open Technical Questions
 
-- **Admin portal:** same React app or separate? How is CSV parsing and validation done in the browser or server-side?
+- **Admin portal:** How is CSV parsing and validation done in the browser or server-side?
 - **CSV rules:** Formatting for the CSV: header format, multi-value cells, and duplicate handling.
-- **Importing:** How will we handel the ability to import drug info for the partner?
-- **Hosting platform:** What will be our front-end hosting platform and what is the cost and compatability
+- **Importing:** How will we handle the ability to import drug info for the partner?
+- **Importing** How will data be imported into our github? Via our hosting platform or through a repo token?
 
 ## 8. Development Workflow
 
