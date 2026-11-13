@@ -41,16 +41,20 @@ flowchart LR
 flowchart LR
     student["Pharmacy Student"]
     admin["Administrator"]
-
+ 
     subgraph system["Drug-Matching Study Game"]
-        app["React + TypeScript Web App<br/>matching game UI, admin portal / CSV import"]
+        subgraph app["React + TypeScript Web App (one app or two: TBD)"]
+            game["Game UI<br/>matching rounds, 2-4 columns"]
+            portal["Admin portal<br/>entry editing, CSV import"]
+        end
         supa["Supabase<br/>hosted backend: API and database"]
         db[("Postgres database<br/>drug entries")]
     end
-
-    student -->|browser, computer or phone| app
-    admin -->|browser| app
-    app -->|Supabase client library, over HTTPS| supa
+ 
+    student -->|browser, computer or phone| game
+    admin -->|browser| portal
+    game -->|reads entries, HTTPS| supa
+    portal -->|reads and writes entries, HTTPS| supa
     supa --> db
 ```
 
@@ -61,6 +65,63 @@ Notes on the diagram:
 - Vercel has been selected as the primary frontend hosting platform, with Cloudflare as a backup option.
 - Admin portal is yet to be decided on the function [TBD].
 - Phone support is through the browser, so the UI must be responsive. Possibly need to be installable as a PWA is [TBD].
+
+```mermaid
+flowchart TD
+    A["Admin uploads CSV"] --> B
+ 
+    subgraph V["Validation: runs in Supabase function"]
+        B{"Header row matches expected columns?"}
+        B -- yes --> C["Parse rows<br/>multi-value cell delimiter: TBD"]
+        C --> D{"Required fields present on this row?"}
+        D -- yes --> E{"generic_name repeated earlier in this file?"}
+        E -- no --> F{"generic_name already in database?"}
+        F -- no --> OK["Row accepted"]
+        F -- yes --> DUP["Duplicate in database:<br/>update existing or reject (TBD)"]
+    end
+ 
+    B -- no --> X["Reject whole file<br/>show header error"]
+    D -- no --> R["Row rejected with reason"]
+    E -- yes --> R
+ 
+    OK --> P["Show per-row preview<br/>accepted / rejected + reason"]
+    DUP --> P
+    R --> P
+    P --> G{"Admin confirms import?"}
+    G -- no --> N["Nothing written"]
+    G -- yes --> W["Write accepted rows to Postgres"]
+    W --> S["Show per-row results"]
+```
+ 
+Decisions this diagram depends on: where validation runs, how duplicates are handled, and the multi-value delimiter.
+
+**Draft: related tables (Subject to change)**
+ 
+```mermaid
+erDiagram
+    DRUG ||--|{ TRADE_NAME : "has"
+    DRUG ||--|{ DISEASE_USE : "is used for"
+    DRUG {
+        uuid id PK
+        text generic_name UK
+        text mechanism_of_action
+    }
+    TRADE_NAME {
+        uuid id PK
+        uuid drug_id FK
+        text name
+    }
+    DISEASE_USE {
+        uuid id PK
+        uuid drug_id FK
+        text description
+    }
+```
+DRUG holds one row per drug: its generic name and its mechanism of action.
+TRADE_NAME holds one row per brand name. Each row has a drug_id saying which drug it belongs to.
+DISEASE_USE holds one row per use. Each row also has a drug_id.
+
+Each trade name and each use belongs to exactly one drug. A drug can have many of each, but a given row can’t be shared between drugs.
 
 ### Architecture components
 
