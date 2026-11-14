@@ -177,17 +177,17 @@ erDiagram
     }
 
     TRADE_NAME {
-        text trade_name PK
+        text trade_name
         text generic_name PK, FK
     }
 
     DISEASE_USE {
-        text disease_use PK
+        text disease_use
         text generic_name PK, FK
     }
 
      MECHANISM {
-        text mechanism_of_action PK
+        text mechanism_of_action
         text generic_name PK, FK
     }
 ```
