@@ -22,6 +22,16 @@ export default defineConfig([
     files: ['src/**/*.js'],
     languageOptions: { globals: globals.browser },
   },
+    // Browser globals for app code
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    languageOptions: { globals: globals.browser },
+  },
+  // Node globals for config files
+  {
+    files: ['vite.config.ts', 'vitest.config.ts', 'eslint.config.mjs'],
+    languageOptions: { globals: globals.node },
+  },
   //Typescipt eslint only handles typescript files
   {
     files: ['**/*.{ts,tsx}'],
