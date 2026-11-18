@@ -7,6 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint .",
@@ -23,13 +26,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/CamTcode/Drug-Matching-Game-Group-8/issues"
   },
   "homepage": "https://github.com/CamTcode/Drug-Matching-Game-Group-8#readme",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.12",
+    "@vitejs/plugin-react": "^6.3.0",
     "@vitest/coverage-v8": "^4.1.12",
     "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
@@ -41,5 +48,9 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1",
     "vitest": "^4.1.12"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }
