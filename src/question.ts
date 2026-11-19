@@ -1,4 +1,4 @@
-type MatchPair = readonly [prompt: string, answer: string];
+type StudyPair = readonly [studyTerm: string, matchingTerm: string];
 
 function shuffle<T>(values: Iterable<T>): T[] {
   // Shuffle a copy so the caller's data stays in its original order.
@@ -10,21 +10,21 @@ function shuffle<T>(values: Iterable<T>): T[] {
   return items;
 }
 
-export function generateQuestion(pairs: readonly MatchPair[]) {
-  const prompts = new Set(pairs.map(([prompt]) => prompt));
-  const answers = new Set(pairs.map(([, answer]) => answer));
+export function generateQuestion(studyPairs: readonly StudyPair[]) {
+  const studyTerms = new Set(studyPairs.map(([studyTerm]) => studyTerm));
+  const cardTerms = new Set(studyPairs.map(([, matchingTerm]) => matchingTerm));
 
-  for (const prompt of shuffle(prompts)) {
-    const valid = new Set(
-      pairs.filter(([clue]) => clue === prompt).map(([, answer]) => answer),
+  for (const studyTerm of shuffle(studyTerms)) {
+    const validMatches = new Set(
+      studyPairs.filter(([term]) => term === studyTerm).map(([, matchingTerm]) => matchingTerm),
     );
-    // Every valid match stays out of the wrong-answer pool.
-    const wrong = [...answers].filter(answer => !valid.has(answer));
-    if (wrong.length < 3) continue;
+    // Other valid matches cannot be shown as incorrect cards.
+    const nonMatchingTerms = [...cardTerms].filter(term => !validMatches.has(term));
+    if (nonMatchingTerms.length < 3) continue;
 
-    const correct = shuffle(valid)[0];
-    const choices = shuffle([correct, ...shuffle(wrong).slice(0, 3)]);
-    return { prompt, choices, correct };
+    const correctMatch = shuffle(validMatches)[0];
+    const cardOptions = shuffle([correctMatch, ...shuffle(nonMatchingTerms).slice(0, 3)]);
+    return { studyTerm, cardOptions, correctMatch };
   }
 
   return null;
