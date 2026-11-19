@@ -64,8 +64,9 @@ fixtures and works offline.
 The standalone question generator draft and its tests live in
 `src/question.ts` and `src/question.test.ts`. Run
 `npm test -- src/question.test.ts --reporter=verbose` to see the test names
-and the cards that demonstrate duplicate handling. The tests use five drug
-records copied from the supplied sample CSV and run offline.
+and a study term with four distinct card options and one correct match.
+The tests use five drug records copied from the supplied sample CSV and run
+offline.
 
 ## Project layout
 
