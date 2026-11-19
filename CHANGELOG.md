@@ -2,6 +2,13 @@
 
 Where we will log major code publishes to the project. Follows the format inside of CONTRIBUTING.
 
+## Unreleased
+
+### Added
+
+- A local command that checks whether Supabase returns a linked drug record.
+- A standalone question generator draft and tests for distinct cards, shared study terms, and insufficient data.
+
 ## 2026-11-08
 
 ### Added
