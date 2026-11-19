@@ -15,8 +15,7 @@ development is sample data and has not been verified.
 
 ## Tech stack
 
-React and TypeScript for the app, Vitest for tests. Supabase is the planned
-backend and is not set up yet.
+React and TypeScript for the app, Vitest for tests, and Supabase for the study database.
 
 ## Quickstart
 
@@ -34,8 +33,7 @@ npm run lint     # runs ESLint
 npm test         # runs the Vitest suite
 ```
 
-There is no dev server yet. This section will be updated when the app
-scaffold is merged.
+Run `npm run dev` to open the category selection screen locally.
 
 ### Lint and test
 
@@ -49,8 +47,25 @@ CI runs lint and tests on every pull request. See `.github/workflows/`.
 
 ### Backend
 
-Supabase is not set up yet, so there are no environment variables or
-database steps. This section will be updated when the project is created.
+For a live read check, create a `.env.local` file in the project folder.
+Set `VITE_SUPABASE_URL` to the team's Supabase project URL and
+`VITE_SUPABASE_PUBLISHABLE_KEY` to the project's publishable key.
+Keep the file out of Git and use the publishable key for this check.
+
+```bash
+npm run check:supabase
+```
+
+A passing check prints one drug from the hosted project, including its
+mechanism, trade names, and disease uses. It keeps the connection settings
+out of the output. Run it separately from `npm test`, which uses local
+fixtures and works offline.
+
+The standalone question generator draft and its tests live in
+`src/question.ts` and `src/question.test.ts`. Run
+`npm test -- src/question.test.ts --reporter=verbose` to see the test names
+and the cards that demonstrate duplicate handling. The tests use five drug
+records copied from the supplied sample CSV and run offline.
 
 ## Project layout
 
