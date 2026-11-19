@@ -50,6 +50,8 @@ body {
 
 #buttons button:hover {
     background-color: #d3d3d3;
+    padding: 1.6vh;
+    margin: .4vh;
 }
 
 #buttons button.selected {
@@ -59,6 +61,8 @@ body {
 
 #buttons button.selected:hover {
     background-color: #444444;
+    padding: 1.6vh;
+    margin: .4vh;
 }
 
 /* ---------- Play button ---------- */
@@ -73,12 +77,79 @@ body {
     font-size: large;
 }
 
-#start_btn:hover {
+#start_btn:not(:disabled):hover {
     background-color: #33b658;
+    padding: 1.6vh 3.1vh;
+    /* i know .425 is a weird value but any more or less resized other buttons? */
+    margin: .425vh; 
 }
 
 #start_btn:disabled {
     background-color: #61a775;
     border-color: rgb(73, 73, 73);
     color: rgb(73, 73, 73);
+}
+
+/* ---------- game screen ---------- */
+
+#quit_btn {
+    padding: 1.5vh 3vh;
+    margin: .5vh;
+    border: 2px solid black;
+    border-radius: 2vh;
+    background-color: #e0e0e0;
+    color: black;
+    font-family: sans-serif;
+    font-size: large;
+}
+
+#quit_btn:hover {
+    background-color: #d3d3d3;
+    padding: 1.6vh 3.1vh;
+    /* i know .425 is a weird value but any more or less resized other buttons? */
+    margin: .425vh; 
+}
+
+/* ---------- cards ---------- */
+#cards {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 15vw;
+    justify-content: center;
+    gap: 1vh;
+    font-family: sans-serif;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.match_tile {
+    padding: 2vh 1vh;
+    margin: 0.5vh 0.2vh;
+    background-color: #e0e0e0;
+    border: 2px solid black;
+    border-radius: 2vh;
+    width: 100%;
+}
+
+.match_tile:hover {
+    background-color: #d3d3d3;
+    padding: 2.1vh 1.1vh;
+    margin: 0.4vh 0vh;
+}
+
+.match_tile.selected {
+    background-color: #303030;
+    color: rgb(255, 255, 255);
+}
+
+.match_tile.selected:hover {
+    background-color: #444444;
+    padding: 2.1vh 1.1vh;
+    margin: 0.4vh 0vh;
 }

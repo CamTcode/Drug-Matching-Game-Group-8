@@ -17,6 +17,13 @@ development is sample data and has not been verified.
 
 React and TypeScript for the app, Vitest for tests, and Supabase for the study database.
 
+## How it works
+
+1. **Menu:** pick at least two categories (Generic Name, Trade Name, Disease treated, Pathway targeted), then press Play.
+2. **Game:** each selected category appears as a column of five tiles. Click a tile to select it, and click again to deselect it. Quit returns to the menu.
+
+Tile contents are placeholders until the database is connected.
+
 ## Quickstart
 
 ### Prerequisites
