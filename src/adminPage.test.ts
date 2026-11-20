@@ -1,3 +1,5 @@
+import type { FormEvent } from 'react';
+import type { AuthError, Session, User } from '@supabase/supabase-js';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useAdminAuth } from './adminPage';
@@ -15,6 +17,9 @@ vi.mock('./supabaseClient', () => ({
 }));
 
 describe('useAdminAuth', () => {
+  const mockUser = { id: '123', email: 'admin@pharmacy.edu' } as User;
+  const mockFormEvent = { preventDefault: vi.fn() } as unknown as FormEvent<HTMLFormElement>;
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Default: no active session on load
@@ -38,9 +43,8 @@ describe('useAdminAuth', () => {
   });
 
   it('restores an active session on initial load', async () => {
-    const mockUser = { id: '123', email: 'admin@pharmacy.edu' } as any;
     vi.mocked(supabase.auth.getSession).mockResolvedValue({
-      data: { session: { user: mockUser } as any },
+      data: { session: { user: mockUser } as Session },
       error: null,
     });
 
@@ -55,7 +59,7 @@ describe('useAdminAuth', () => {
     const { result } = renderHook(() => useAdminAuth());
 
     await act(async () => {
-      await result.current.handleLogin({ preventDefault: vi.fn() } as any);
+      await result.current.handleLogin(mockFormEvent);
     });
 
     expect(result.current.statusText).toBe('Please enter both email and password.');
@@ -63,9 +67,8 @@ describe('useAdminAuth', () => {
   });
 
   it('sets user and clears status on successful login', async () => {
-    const mockUser = { id: '123', email: 'admin@pharmacy.edu' } as any;
     vi.mocked(supabase.auth.signInWithPassword).mockResolvedValue({
-      data: { user: mockUser, session: {} as any },
+      data: { user: mockUser, session: {} as Session },
       error: null,
     });
 
@@ -77,7 +80,7 @@ describe('useAdminAuth', () => {
     });
 
     await act(async () => {
-      await result.current.handleLogin({ preventDefault: vi.fn() } as any);
+      await result.current.handleLogin(mockFormEvent);
     });
 
     expect(supabase.auth.signInWithPassword).toHaveBeenCalledWith({
@@ -91,7 +94,7 @@ describe('useAdminAuth', () => {
   it('displays error message when login fails', async () => {
     vi.mocked(supabase.auth.signInWithPassword).mockResolvedValue({
       data: { user: null, session: null },
-      error: { message: 'Invalid login credentials' } as any,
+      error: { message: 'Invalid login credentials' } as AuthError,
     });
 
     const { result } = renderHook(() => useAdminAuth());
@@ -102,7 +105,7 @@ describe('useAdminAuth', () => {
     });
 
     await act(async () => {
-      await result.current.handleLogin({ preventDefault: vi.fn() } as any);
+      await result.current.handleLogin(mockFormEvent);
     });
 
     expect(result.current.user).toBeNull();
@@ -110,9 +113,8 @@ describe('useAdminAuth', () => {
   });
 
   it('clears user and fields on logout', async () => {
-    const mockUser = { id: '123', email: 'admin@pharmacy.edu' } as any;
     vi.mocked(supabase.auth.getSession).mockResolvedValue({
-      data: { session: { user: mockUser } as any },
+      data: { session: { user: mockUser } as Session },
       error: null,
     });
     vi.mocked(supabase.auth.signOut).mockResolvedValue({ error: null });
