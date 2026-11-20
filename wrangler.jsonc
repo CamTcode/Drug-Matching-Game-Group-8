@@ -2,6 +2,6 @@
   "name": "drug-matching-game-group-8",
   "compatibility_date": "2026-11-19",
   "assets": {
-    "directory": "./dist",
+    "directory": "./dist"
   }
 }
