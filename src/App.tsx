@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import logo from './images/logo_v1.png';
 import { CATEGORIES, MIN_CATEGORIES, type CategoryKey } from './categories';
+import { useAdminAuth } from './adminPage';
 
 // Game is its own component, defined outside App
 function Game({
@@ -50,10 +51,68 @@ function Game({
 );
 }
 
+//Admin screen UI
+function AdminView({ onBack }: { onBack: () => void }) {
+  const {
+    user,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    statusText,
+    handleLogin,
+    handleLogout,
+  } = useAdminAuth();
+
+  return (
+    <div id="main">
+      <h1>Admin Login</h1>
+
+      {!user ? (
+        <form id="admin_form" onSubmit={handleLogin}>
+          <p>Sign in with your Supabase account</p>
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button id="login_btn" type="submit">
+            Log In
+          </button>
+        </form>
+      ) : (
+        <div id="upload_section">
+          <p>Logged in as: {user.email}</p>
+          {/* Add your upload UI components here */}
+          <button id="logout_btn" type="button" onClick={handleLogout}>
+            Log Out
+          </button>
+        </div>
+      )}
+
+      {statusText && <p>{statusText}</p>}
+
+      <button id="quit_btn" type="button" onClick={onBack}>
+        Back
+      </button>
+    </div>
+  );
+}
+
 export default function App() {
   // 1. state (always at the top)
   const [selected, setSelected] = useState<Set<CategoryKey>>(new Set());
-  const [screen, setScreen] = useState<'menu' | 'game'>('menu');
+  const [screen, setScreen] = useState<'menu' | 'game' | 'admin'>('menu');
 
   // 2. helper functions
   function toggle(key: CategoryKey) {
@@ -67,13 +126,17 @@ export default function App() {
       return next;
     });
   }
+  // 3.admin screen
+  if (screen === 'admin') {
+    return <AdminView onBack={() => setScreen('menu')} />;
+  }
 
-  // 3. game screen
+  // 4. game screen
   if (screen === 'game') {
     return <Game categories={selected} onBack={() => setScreen('menu')} />;
   }
 
-  // 4. menu screen (default)
+  // 5. menu screen (default)
   return (
     <div id="main">
       <img src={logo} alt="Pharmacy Matching Game logo" />
@@ -100,6 +163,16 @@ export default function App() {
       >
         Play
       </button>
+      <a
+        id="admin_link"
+        href="#admin"
+        onClick={(e) => {
+          e.preventDefault();
+          setScreen('admin');
+        }}
+      >
+        Admin
+      </a>
     </div>
   );
 }
