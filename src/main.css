@@ -1,7 +1,14 @@
 /* ---------- Page ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    min-height: 100vh;
+    min-height: 100vh;   /* fallback for older browsers */
+    min-height: 100dvh;  /* matches the visible area on phones, so no extra scrolling */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +21,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 3vh;
+    width: 100%;
+    max-width: 900px;
+    padding: 12px;
     border-radius: 10px;
     font-size: larger;
 }
@@ -24,12 +33,14 @@ body {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: xx-large;
     font-weight: normal;
+    text-align: center;
 }
 
 #main p {
     margin: 1vh;
     font-family: sans-serif;
     font-weight: bold;
+    text-align: center;
 }
 
 /* ---------- Category buttons ---------- */
@@ -39,19 +50,14 @@ body {
 }
 
 #buttons button {
-    padding: 1.5vh;
-    margin: .5vh;
+    padding: 12px;
+    margin: 4px;
     border: 2px solid black;
-    border-radius: 2vh;
+    border-radius: 16px;
     background-color: #e0e0e0;
     color: black;
     font-size: large;
-}
-
-#buttons button:hover {
-    background-color: #d3d3d3;
-    padding: 1.6vh;
-    margin: .4vh;
+    touch-action: manipulation;
 }
 
 #buttons button.selected {
@@ -59,29 +65,17 @@ body {
     color: rgb(255, 255, 255);
 }
 
-#buttons button.selected:hover {
-    background-color: #444444;
-    padding: 1.6vh;
-    margin: .4vh;
-}
-
 /* ---------- Play button ---------- */
 #start_btn {
-    padding: 1.5vh 3vh;
-    margin: .5vh;
+    padding: 12px 24px;
+    margin: 4px;
     border: 2px solid black;
-    border-radius: 2vh;
+    border-radius: 16px;
     background-color: #2d9b4c;
     color: black;
     font-family: sans-serif;
     font-size: large;
-}
-
-#start_btn:not(:disabled):hover {
-    background-color: #33b658;
-    padding: 1.6vh 3.1vh;
-    /* i know .425 is a weird value but any more or less resized other buttons? */
-    margin: .425vh; 
+    touch-action: manipulation;
 }
 
 #start_btn:disabled {
@@ -91,56 +85,55 @@ body {
 }
 
 /* ---------- game screen ---------- */
-
 #quit_btn {
-    padding: 1.5vh 3vh;
-    margin: .5vh;
+    padding: 12px 24px;
+    margin: 4px;
     border: 2px solid black;
-    border-radius: 2vh;
+    border-radius: 16px;
     background-color: #e0e0e0;
     color: black;
     font-family: sans-serif;
     font-size: large;
-}
-
-#quit_btn:hover {
-    background-color: #d3d3d3;
-    padding: 1.6vh 3.1vh;
-    /* i know .425 is a weird value but any more or less resized other buttons? */
-    margin: .425vh; 
+    touch-action: manipulation;
 }
 
 /* ---------- cards ---------- */
 #cards {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: 15vw;
-    justify-content: center;
-    gap: 1vh;
+    grid-auto-columns: minmax(0, 1fr);  /* columns share the screen width */
+    gap: 6px;
+    width: 100%;
+    padding: 0 4px;
     font-family: sans-serif;
-    font-size: x-large;
+    font-size: clamp(0.7rem, 3vw, 1.5rem);  /* scales with screen width */
     font-weight: bold;
+    text-align: center;
 }
 
 .card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 0;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .match_tile {
-    padding: 2vh 1vh;
-    margin: 0.5vh 0.2vh;
+    width: 100%;
+    min-height: 44px;  /* comfortable tap target */
+    padding: 8px 4px;
+    margin: 4px 0;
     background-color: #e0e0e0;
     border: 2px solid black;
-    border-radius: 2vh;
-    width: 100%;
-}
-
-.match_tile:hover {
-    background-color: #d3d3d3;
-    padding: 2.1vh 1.1vh;
-    margin: 0.4vh 0vh;
+    border-radius: 16px;
+    font-family: inherit;
+    font-size: clamp(0.7rem, 3vw, 1.1rem);
+    overflow-wrap: break-word;
+    hyphens: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .match_tile.selected {
@@ -148,8 +141,37 @@ body {
     color: rgb(255, 255, 255);
 }
 
-.match_tile.selected:hover {
-    background-color: #444444;
-    padding: 2.1vh 1.1vh;
-    margin: 0.4vh 0vh;
+/* ---------- Hover styles (mouse only, so they don't stick on touch screens) ---------- */
+@media (hover: hover) {
+    #buttons button:hover {
+        background-color: #d3d3d3;
+        padding: 13px;
+        margin: 3px;
+    }
+
+    #buttons button.selected:hover {
+        background-color: #444444;
+        padding: 13px;
+        margin: 3px;
+    }
+
+    #start_btn:not(:disabled):hover {
+        background-color: #33b658;
+        padding: 13px 25px;
+        margin: 3px;
+    }
+
+    #quit_btn:hover {
+        background-color: #d3d3d3;
+        padding: 13px 25px;
+        margin: 3px;
+    }
+
+    .match_tile:hover {
+        background-color: #d3d3d3;
+    }
+
+    .match_tile.selected:hover {
+        background-color: #444444;
+    }
 }
