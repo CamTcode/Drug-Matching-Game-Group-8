@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import logo from './images/logo_v1.png';
 import { CATEGORIES, MIN_CATEGORIES, type CategoryKey } from './categories';
+import SpeakerButton from './SpeakerButton';
+
+// TODO: temporary placeholder text so the speaker button can be tested.
+// Remove once tiles are filled from the database.
+const SAMPLE_TERMS = ['Metoprolol', 'Atorvastatin', 'Sertraline', 'Amlodipine', 'Albuterol'];
 
 // Game is its own component, defined outside App
 function Game({
@@ -14,10 +19,10 @@ function Game({
   const [picked, setPicked] = useState<string[]>([]);
 
   function handleTileClick(id: string) {
-  setPicked((prev) =>
-    prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
-  );
-}
+    setPicked((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    );
+  }
 
   return (
     <div id="main">
@@ -27,27 +32,30 @@ function Game({
             {label}
             {Array.from({ length: 5 }).map((_, i) => {
               const tileId = `${key}-${i}`;
+              const text = SAMPLE_TERMS[i];     // TODO: replace with the term from the database
               return (
-                <button
-                  key={i}
-                  id={`tile-${tileId}`}
-                  className={picked.includes(tileId) ? 'match_tile selected' : 'match_tile'}
-                  data-category={key}
-                  data-index={i}
-                  onClick={() => handleTileClick(tileId)}
-                >
-                  {/* attribute picked from database */}
-                </button>
+                <div key={i} className="tile_wrap">
+                  <button
+                    id={`tile-${tileId}`}
+                    className={picked.includes(tileId) ? 'match_tile selected' : 'match_tile'}
+                    data-category={key}
+                    data-index={i}
+                    onClick={() => handleTileClick(tileId)}
+                  >
+                    {text}
+                  </button>
+                  <SpeakerButton text={text} />
+                </div>
               );
-          })}
-        </div>
-      ))}
+            })}
+          </div>
+        ))}
+      </div>
+      <button id="quit_btn" type="button" onClick={onBack}>
+        Quit
+      </button>
     </div>
-    <button id="quit_btn" type="button" onClick={onBack}>
-      Quit
-    </button>
-  </div>
-);
+  );
 }
 
 export default function App() {

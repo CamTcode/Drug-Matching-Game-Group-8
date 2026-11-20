@@ -1,0 +1,36 @@
+/* ---------- speaker button ---------- */
+.tile_wrap {
+    position: relative;
+    width: 100%;
+}
+
+.tile_wrap .match_tile {
+    padding-right: 32px; /* leaves room so text doesn't run under the speaker */
+}
+
+.speaker_btn {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: black;
+    touch-action: manipulation;
+}
+
+.match_tile.selected + .speaker_btn {
+    color: white; /* stays visible on the dark selected tile */
+}
+
+@media (hover: hover) {
+    .speaker_btn:hover {
+        background: rgba(0, 0, 0, 0.12);
+    }
+}
