@@ -1,8 +1,27 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, vi, beforeEach, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 import { CATEGORIES } from './categories';
+import { supabase } from './supabaseClient';
+
+vi.mock('./supabaseClient', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+    },
+  },
+}));
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  vi.mocked(supabase.auth.getSession).mockResolvedValue({
+    data: { session: null },
+    error: null,
+  });
+});
 
 const category = (label: string) => screen.getByRole('button', { name: label });
 const play = () => screen.getByRole('button', { name: 'Play' });
@@ -235,5 +254,64 @@ describe('quitting', () => {
     await user.click(category('Disease treated'));
     await user.click(play());
     expect(card('disease_treated')).toBeInTheDocument();
+  });
+});
+
+//Tests for admin login page section 
+
+const adminLink = () => screen.getByRole('link', { name: 'Admin' });
+const back = () => screen.getByRole('button', { name: 'Back' });
+
+describe('admin screen', () => {
+  it('shows the Admin link on the menu', () => {
+    setup();
+    expect(adminLink()).toBeInTheDocument();
+  });
+
+  it('replaces the menu with the Admin Login screen when clicked', async () => {
+    const user = setup();
+    await user.click(adminLink());
+    expect(
+      screen.queryByRole('heading', { name: 'Pharmacy Matching Game' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Admin Login' }),
+    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+  });
+
+  it('returns to the menu when Back is clicked', async () => {
+    const user = setup();
+    await user.click(adminLink());
+    await user.click(back());
+    expect(
+      screen.getByRole('heading', { name: 'Pharmacy Matching Game' }),
+    ).toBeInTheDocument();
+  });
+
+  it('shows the logged-in view after a valid login and logs out cleanly', async () => {
+    vi.mocked(supabase.auth.signInWithPassword).mockResolvedValue({
+      data: {
+        user: { id: '1', email: 'admin@pharmacy.edu' } as never,
+        session: {} as never,
+      },
+      error: null,
+    });
+    vi.mocked(supabase.auth.signOut).mockResolvedValue({ error: null });
+
+    const user = setup();
+    await user.click(adminLink());
+    await user.type(screen.getByPlaceholderText('Email'), 'admin@pharmacy.edu');
+    await user.type(screen.getByPlaceholderText('Password'), 'password123');
+    await user.click(screen.getByRole('button', { name: 'Log In' }));
+
+    expect(
+      await screen.findByText('Logged in as: admin@pharmacy.edu'),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Log Out' }));
+    expect(await screen.findByText('Logged out.')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
   });
 });
